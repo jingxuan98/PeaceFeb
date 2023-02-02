@@ -1,11 +1,12 @@
 import styles from 'styles/Home.module.scss'
-import { ThemeToggleButton, ThemeToggleList } from 'components/Theme'
 import { useState } from 'react'
 import { useNetwork, useSwitchNetwork, useAccount, useBalance } from 'wagmi'
 import ConnectWallet from 'components/Connect/ConnectWallet'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useConnectModal, useAccountModal, useChainModal } from '@rainbow-me/rainbowkit'
 import { useSignMessage } from 'wagmi'
+import Header from 'components/Header'
+import Footer from 'components/Footer'
 
 export default function Home() {
   return (
@@ -14,24 +15,6 @@ export default function Home() {
       <Main />
       <Footer />
     </div>
-  )
-}
-
-function Header() {
-  return (
-    <header className={styles.header}>
-      <div>
-        <ThemeToggleList />
-      </div>
-      <div className="flex items-center">
-        <ThemeToggleButton /> header <ThemeToggleList />
-      </div>
-
-      <div className="flex items-center">
-        <ThemeToggleButton />
-        <ThemeToggleList />
-      </div>
-    </header>
   )
 }
 
@@ -181,23 +164,5 @@ function SignMsg() {
         {isError && <span>Error signing message</span>}
       </p>
     </>
-  )
-}
-
-function Footer() {
-  return (
-    <footer className={styles.footer}>
-      <div>
-        <ThemeToggleList />
-      </div>
-      <div className="flex items-center">
-        <ThemeToggleButton /> footer <ThemeToggleList />
-      </div>
-
-      <div className="flex items-center">
-        <ThemeToggleButton />
-        <ThemeToggleList />
-      </div>
-    </footer>
   )
 }
