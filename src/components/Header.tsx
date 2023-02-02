@@ -1,20 +1,25 @@
-import styles from 'styles/Home.module.scss'
-import { ThemeToggleButton, ThemeToggleList } from 'components/Theme'
+import ConnectWallet from 'components/Connect/ConnectWallet'
+import HeaderButton from './HeaderButton'
 
-export default function Header() {
+const Header = () => {
   return (
-    <header className={styles.header}>
-      <div>
-        <ThemeToggleList />
-      </div>
-      <div className="flex items-center">
-        <ThemeToggleButton /> header <ThemeToggleList />
-      </div>
-
-      <div className="flex items-center">
-        <ThemeToggleButton />
-        <ThemeToggleList />
-      </div>
+    <header>
+      <nav className="navbar navbar-expand-lg relative flex w-full items-center justify-between px-16 py-8">
+        <div className="flex w-full flex-wrap items-center justify-between">
+          <div className="i tems-center    flex">
+            <img src="/logo.png" alt="logo" className="h-14" />
+            {/* TODO: Change to link to redirect */}
+            <HeaderButton text="LEND" icon="/lend.png" href="#" className="ml-10" />
+            <HeaderButton text="BORROW" icon="/borrow.png" href="#" className="ml-5" />
+            <HeaderButton text="REWARDS" icon="/rewards.png" href="#" className="ml-5" />
+          </div>
+          <div className="flex flex-row-reverse items-center">
+            <ConnectWallet />
+          </div>
+        </div>
+      </nav>
     </header>
   )
 }
+
+export default Header
