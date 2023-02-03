@@ -7,6 +7,7 @@ import { useConnectModal, useAccountModal, useChainModal } from '@rainbow-me/rai
 import { useSignMessage } from 'wagmi'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
+import BorrowForm from 'components/BorrowForm'
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ function Main() {
   const { openChainModal } = useChainModal()
   return (
     <main className={styles.main + ' space-y-6'}>
+      <BorrowForm />
       <div className="text-center">
         <p className="font-medium">Dapp Starter Boilerplate by arisac.eth</p>
         <p>
