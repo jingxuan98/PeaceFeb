@@ -4,14 +4,14 @@ import { ThemeToggleButton, ThemeToggleList } from 'components/Theme'
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div>
+      {/* <div>
         <ThemeToggleList />
-      </div>
-      <div className="flex items-center">© 2023 - PeaceFeb</div>
+      </div> */}
+      <div className="flex items-center justify-center">© 2023 - PeaceFeb</div>
 
       <div className="flex items-center">
-        <ThemeToggleButton />
-        <ThemeToggleList />
+        {/* <ThemeToggleButton />
+        <ThemeToggleList /> */}
       </div>
     </footer>
   )

@@ -4,3 +4,12 @@
 @import 'base';
 @import 'utils';
 @import '@rainbow-me/rainbowkit/styles.css';
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -10px black;
+}
+
+button {
+  background: linear-gradient(135deg, #b92b27, #1565c0);
+}
