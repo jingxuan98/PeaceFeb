@@ -1,13 +1,39 @@
+import { LoanPoolABI } from 'abi/LoanPool'
+import { ethers } from 'ethers'
 import { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
 
 const BorrowForm = () => {
   const [amount, setAmount] = useState(0)
+  const { address } = useAccount()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    alert(amount)
+  const { config } = usePrepareContractWrite({
+    address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
+    abi: LoanPoolABI,
+    functionName: 'fundPool',
+    ...(amount > 0 && {
+      overrides: {
+        from: address,
+        value: ethers.utils.parseEther(amount.toString()),
+      },
+    }),
+  })
+
+  const { data: applyLoanData, isLoading, isSuccess, write: fundPool } = useContractWrite(config)
+
+  const fundPoolWrite = async (amt: number) => {
+    console.log(amt)
+    console.log(amt.toString())
+    // @ts-ignore
+    await fundPool()
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // TODO: Handle submit
     event.preventDefault()
+
+    await fundPoolWrite(amount)
   }
 
   return (
@@ -20,6 +46,7 @@ const BorrowForm = () => {
         <Form.Label className="font-medium">Loan Amount</Form.Label>
         <Form.Control
           type="number"
+          name="fund Amount"
           value={amount}
           onChange={e => setAmount(parseInt(e.target.value))}
           required
