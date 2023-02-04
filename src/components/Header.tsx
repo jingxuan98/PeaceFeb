@@ -1,7 +1,23 @@
 import ConnectWallet from 'components/Connect/ConnectWallet'
 import HeaderButton from './HeaderButton'
+import { useAccount } from 'wagmi'
+import { useRouter } from 'next/router'
 
 const Header = () => {
+  const { address } = useAccount()
+  const router = useRouter()
+
+  const handleClick = e => {
+    e.preventDefault()
+    router.push('/borrow')
+  }
+
+  const verifyAddress = () => {
+    let verified = true
+
+    return verified
+  }
+
   return (
     <header>
       <nav className="navbar navbar-expand-lg relative flex w-full items-center justify-between px-16 py-8">
@@ -10,8 +26,9 @@ const Header = () => {
             <img src="/logo.png" alt="logo" className="h-14" />
             {/* TODO: Change to link to redirect */}
             <HeaderButton text="LEND" icon="/lend.png" href="#" className="ml-20" />
-            <HeaderButton text="BORROW" icon="/borrow.png" href="#" className="ml-10" />
-            <HeaderButton text="REWARDS" icon="/rewards.png" href="#" className="ml-10" />
+            {verifyAddress() && (
+              <HeaderButton onClick={handleClick} text="BORROW" icon="/borrow.png" href="#" className="ml-10" />
+            )}
           </div>
           <div className="flex flex-row-reverse items-center">
             <ConnectWallet />

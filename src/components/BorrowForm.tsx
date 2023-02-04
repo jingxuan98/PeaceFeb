@@ -23,7 +23,7 @@ const BorrowForm = () => {
           value={amount}
           onChange={e => setAmount(parseInt(e.target.value))}
           required
-          className="w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 py-2 px-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none"
+          className="w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 py-2 px-4 leading-tight text-gray-700 focus:border-red-500 focus:bg-white focus:outline-none"
         />
       </Form.Group>
       <Button
