@@ -1,13 +1,19 @@
 import { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { useBalance } from 'wagmi'
 
 const BorrowForm = () => {
   const [amount, setAmount] = useState(0)
+  const [loanableBalance, setLoanableBalance] = useState(0)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // TODO: Handle submit
     event.preventDefault()
   }
+
+  const { data, isError, isLoading } = useBalance({
+    address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
+  })
 
   return (
     <div className="rounded-lg bg-white p-6 shadow-2xl">
@@ -15,10 +21,7 @@ const BorrowForm = () => {
         <div className="flex">
           <text>Loanable Balance</text>
         </div>
-        <div className="flex flex-row-reverse">
-          {/* TODO: Update loanable balance amount*/}
-          <text>0 FIL</text>
-        </div>
+        <div className="flex flex-row-reverse">{data?.formatted} FIL</div>
       </div>
       <div className="mt-4">
         <Form onSubmit={handleSubmit} className="">
