@@ -7,7 +7,7 @@ import { useConnectModal, useAccountModal, useChainModal } from '@rainbow-me/rai
 import { useSignMessage } from 'wagmi'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
-import BorrowForm from 'components/BorrowForm'
+import LendForm from 'components/LendForm'
 
 export default function Home() {
   return (
@@ -34,8 +34,8 @@ function Main() {
     <main className={styles.main + ' space-y-6'}>
       <h2 className={styles.h2Header}>Earn Interest with Your FILs</h2>
       {/* <p className="header-desc">FEVMs Reward Sharing Undercollateralised Loan Platform</p> */}
-      <div className="text-center">
-        <BorrowForm />
+      <div className="text-left">
+        <LendForm />
       </div>
     </main>
   )
