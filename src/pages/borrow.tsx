@@ -4,6 +4,7 @@ import Header from 'components/Header'
 import Footer from 'components/Footer'
 import { Button } from 'react-bootstrap'
 import { useContract, useProvider } from 'wagmi'
+import BorrowForm from 'components/BorrowForm'
 
 export default function Borrow() {
   const provider = useProvider()
@@ -13,6 +14,8 @@ export default function Borrow() {
     <div className={styles.container}>
       <Header />
       <main className={styles.main + ' space-y-6'}>
+        <h2 className={styles.h2Header}>Apply for Loan</h2>
+        <BorrowForm />
         <h2 className={styles.h2Header}>Your Loans</h2>
 
         <div className="w-2/4 rounded-xl bg-white p-6 shadow-2xl">
