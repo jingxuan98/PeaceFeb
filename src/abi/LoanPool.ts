@@ -1,14 +1,21 @@
 export const LoanPoolABI = [
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_minerApiAddress',
-        type: 'address',
-      },
-    ],
+    inputs: [],
     stateMutability: 'nonpayable',
     type: 'constructor',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'uint8',
+        name: 'version',
+        type: 'uint8',
+      },
+    ],
+    name: 'Initialized',
+    type: 'event',
   },
   {
     anonymous: false,
@@ -20,15 +27,21 @@ export const LoanPoolABI = [
         type: 'address',
       },
       {
-        indexed: true,
-        internalType: 'uint256',
-        name: 'txIndex',
-        type: 'uint256',
-      },
-      {
         indexed: false,
         internalType: 'uint256',
         name: 'amount',
+        type: 'uint256',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'wallet',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'uint256',
+        name: 'txIndex',
         type: 'uint256',
       },
     ],
@@ -41,7 +54,7 @@ export const LoanPoolABI = [
       {
         indexed: true,
         internalType: 'address',
-        name: 'funer',
+        name: 'funder',
         type: 'address',
       },
       {
@@ -71,13 +84,27 @@ export const LoanPoolABI = [
     inputs: [
       {
         internalType: 'uint256',
-        name: 'amount',
+        name: '',
         type: 'uint256',
       },
+    ],
+    name: 'applicantsArr',
+    outputs: [
       {
-        internalType: 'string',
-        name: 'minerAddr',
-        type: 'string',
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256',
       },
     ],
     name: 'applyLoan',
@@ -86,8 +113,34 @@ export const LoanPoolABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '_maxAmount',
+        type: 'uint256',
+      },
+    ],
+    name: 'changeMaxLoanableAmount',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'counter',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'fundAvailable',
     outputs: [
       {
         internalType: 'uint256',
@@ -114,6 +167,13 @@ export const LoanPoolABI = [
       },
     ],
     name: 'funderWithdraw',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'funderWithdrawAll',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -157,10 +217,36 @@ export const LoanPoolABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'getApplicantList',
+    outputs: [
+      {
+        internalType: 'address[]',
+        name: '',
+        type: 'address[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getApplicantListTotal',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'address',
-        name: '_id',
+        name: '_funder',
         type: 'address',
       },
     ],
@@ -204,6 +290,38 @@ export const LoanPoolABI = [
   {
     inputs: [
       {
+        internalType: 'address',
+        name: '_address',
+        type: 'address',
+      },
+    ],
+    name: 'getLoanTxnByAddress',
+    outputs: [
+      {
+        internalType: 'uint256[]',
+        name: '',
+        type: 'uint256[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_treasury',
+        type: 'address',
+      },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'uint256',
         name: '',
         type: 'uint256',
@@ -215,11 +333,6 @@ export const LoanPoolABI = [
         internalType: 'address',
         name: 'sp',
         type: 'address',
-      },
-      {
-        internalType: 'string',
-        name: 'minerAddr',
-        type: 'string',
       },
       {
         internalType: 'uint256',
@@ -241,6 +354,30 @@ export const LoanPoolABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'loanTxsByAddress',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'maxAmount',
     outputs: [
@@ -255,7 +392,40 @@ export const LoanPoolABI = [
   },
   {
     inputs: [],
-    name: 'minerApiAddress',
+    name: 'receiveBackFund',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'totalFund',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_admin',
+        type: 'address',
+      },
+    ],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'treasury',
     outputs: [
       {
         internalType: 'address',
@@ -267,13 +437,19 @@ export const LoanPoolABI = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'totalFund',
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'walletAssigned',
     outputs: [
       {
-        internalType: 'uint256',
+        internalType: 'address',
         name: '',
-        type: 'uint256',
+        type: 'address',
       },
     ],
     stateMutability: 'view',
