@@ -7,9 +7,7 @@ export default function Footer() {
       <div>
         <ThemeToggleList />
       </div>
-      <div className="flex items-center">
-        <ThemeToggleButton /> footer <ThemeToggleList />
-      </div>
+      <div className="flex items-center">© 2023 - PeaceFeb</div>
 
       <div className="flex items-center">
         <ThemeToggleButton />

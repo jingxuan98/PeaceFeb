@@ -29,110 +29,12 @@ function Main() {
   const { openConnectModal } = useConnectModal()
   const { openAccountModal } = useAccountModal()
   const { openChainModal } = useChainModal()
+
   return (
     <main className={styles.main + ' space-y-6'}>
-      <BorrowForm />
       <div className="text-center">
-        <p className="font-medium">Dapp Starter Boilerplate by arisac.eth</p>
-        <p>
-          <a
-            href="https://github.com/arisac/dapp-starter"
-            target="_blank"
-            className="text-sm underline"
-            rel="noreferrer"
-          >
-            https://github.com/arisac/dapp-starter
-          </a>
-        </p>
-      </div>
-
-      <div>
-        <h4 className="text-center text-sm font-medium">demo: ConnectWalletBtn Full</h4>
-        <div className="flex w-full flex-col items-center">
-          <ConnectWallet />
-        </div>
-      </div>
-
-      <div>
-        <h4 className="text-center text-sm font-medium">demo: useModal (rainbowkit ^0.4.3)</h4>
-        <div className="flex w-full flex-col items-center">
-          {openConnectModal && (
-            <button
-              onClick={openConnectModal}
-              type="button"
-              className="m-1 rounded-lg bg-orange-500 py-1 px-3 text-white transition-all duration-150 hover:scale-105"
-            >
-              useConnectModal
-            </button>
-          )}
-
-          {openAccountModal && (
-            <button
-              onClick={openAccountModal}
-              type="button"
-              className="m-1 rounded-lg bg-orange-500 py-1 px-3 text-white transition-all duration-150 hover:scale-105"
-            >
-              useAccountModal
-            </button>
-          )}
-
-          {openChainModal && (
-            <button
-              onClick={openChainModal}
-              type="button"
-              className="m-1 rounded-lg bg-orange-500 py-1 px-3 text-white transition-all duration-150 hover:scale-105"
-            >
-              useChainModal
-            </button>
-          )}
-        </div>
-      </div>
-
-      <div className="w-full max-w-xl rounded-xl bg-sky-500/10 p-6 text-center">
-        <dl className={styles.dl}>
-          <dt>Connector</dt>
-          <dd>
-            {connector?.name}
-            {!address && (
-              <ConnectButton.Custom>
-                {({ openConnectModal }) => (
-                  <span onClick={openConnectModal} className="cursor-pointer hover:underline">
-                    Not connected, connect wallet
-                  </span>
-                )}
-              </ConnectButton.Custom>
-            )}
-          </dd>
-          <dt>Connected Network</dt>
-          <dd>{chain ? `${chain?.id}: ${chain?.name}` : 'n/a'}</dd>
-          <dt>Switch Network</dt>
-          <dd className="flex flex-wrap justify-center">
-            {isConnected &&
-              chains.map(x => (
-                <button
-                  disabled={!switchNetwork || x.id === chain?.id}
-                  key={x.id}
-                  onClick={() => switchNetwork?.(x.id)}
-                  className={
-                    (x.id === chain?.id ? 'bg-green-500' : 'bg-blue-500 hover:scale-105') +
-                    ' m-1 rounded-lg py-1 px-3 text-white transition-all duration-150'
-                  }
-                >
-                  {x.name}
-                  {isNetworkLoading && pendingChainId === x.id && ' (switching)'}
-                </button>
-              ))}
-            <ConnectWallet show="disconnected" />
-          </dd>
-          <dt>Account</dt>
-          <dd className="break-all">{address ? `${address}` : 'n/a'}</dd>
-          <dt>Balance</dt>
-          <dd className="break-all">
-            {isBalanceLoading ? 'loading' : balance ? `${balance?.formatted} ${balance?.symbol}` : 'n/a'}
-          </dd>
-          <dt>Sign Message</dt>
-          <dd className="break-all">{address ? <SignMsg /> : 'n/a'} </dd>
-        </dl>
+        <p className="font-medium">PeaceFeb - FEVMs Reward Sharining Undercollateralised Loan Platform</p>
+        <BorrowForm />
       </div>
     </main>
   )

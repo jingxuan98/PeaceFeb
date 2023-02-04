@@ -18,7 +18,6 @@ import {
   rainbowWallet,
 } from '@rainbow-me/rainbowkit/wallets'
 import { Chain } from '@rainbow-me/rainbowkit'
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains'
 import { createClient, configureChains, WagmiConfig } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
@@ -40,43 +39,39 @@ export default App
 // Add Custom Chain
 // Demo purpose, gnosis is included in wagmi/chains
 // import { gnosis } from 'wagmi/chains'
-const gnosisChain: Chain = {
-  id: 100,
-  name: 'Gnosis',
-  network: 'gnosis',
-  iconUrl: 'https://uploads-ssl.webflow.com/63692bf32544bee8b1836ea6/637b0145cf7e15b7fbffd51a_favicon-256.png',
+const hyperspaceChain: Chain = {
+  id: 3141,
+  name: 'Hyperspace',
+  network: 'Hyperspace',
+  iconUrl: 'https://chainstack.com/wp-content/themes/chainstack/img/bbw-filecoin.png',
   iconBackground: '#000',
   nativeCurrency: {
     decimals: 18,
-    name: 'Gnosis',
-    symbol: 'xDAI',
+    name: 'Hyperspace',
+    symbol: 'tFIL',
   },
   rpcUrls: {
     default: {
-      http: ['https://gnosischain-rpc.gateway.pokt.network'],
+      http: ['https://api.hyperspace.node.glif.io/rpc/v1'],
     },
   },
   blockExplorers: {
-    etherscan: {
-      name: 'Gnosisscan',
-      url: 'https://gnosisscan.io/',
-    },
     default: {
-      name: 'Gnosis Chain Explorer',
-      url: 'https://blockscout.com/xdai/mainnet/',
+      name: 'Filecoin Hyperspace Explorer',
+      url: 'https://hyperspace.filfox.info/en/',
     },
   },
-  testnet: false,
+  testnet: true,
 }
 
 // Web3 Configs
 const { chains, provider } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, gnosisChain],
+  [hyperspaceChain],
   [
     infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID !== '' && process.env.NEXT_PUBLIC_INFURA_ID }),
     jsonRpcProvider({
       rpc: chain => {
-        if (chain.id !== gnosisChain.id) return null
+        if (chain.id !== hyperspaceChain.id) return null
         return {
           http: `${chain.rpcUrls.default}`,
         }
