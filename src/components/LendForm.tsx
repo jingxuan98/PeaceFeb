@@ -61,7 +61,7 @@ const LendForm = () => {
       </div>
       <div className="mt-6 flex w-full flex-wrap items-center justify-between">
         <div className="flex">
-          <text>Total deposit</text>
+          <text>Total Deposit</text>
         </div>
         <div className="flex flex-row-reverse">
           {/* TODO: Update deposit amount*/}
