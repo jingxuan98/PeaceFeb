@@ -7,9 +7,10 @@ const Header = () => {
   const { address } = useAccount()
   const router = useRouter()
 
-  const handleClick = e => {
+  const handleClick = (e, dest: string) => {
     e.preventDefault()
-    router.push('/borrow')
+    if (dest === 'borrow') router.push('/borrow')
+    else router.push('/')
   }
 
   const verifyAddress = () => {
@@ -25,9 +26,21 @@ const Header = () => {
           <div className="flex items-center">
             <img src="/logo.png" alt="logo" className="h-14" />
             {/* TODO: Change to link to redirect */}
-            <HeaderButton text="LEND" icon="/lend.png" href="#" className="ml-20" />
+            <HeaderButton
+              onClick={e => handleClick(e, 'lend')}
+              text="LEND"
+              icon="/lend.png"
+              href="#"
+              className="ml-20"
+            />
             {verifyAddress() && (
-              <HeaderButton onClick={handleClick} text="BORROW" icon="/borrow.png" href="#" className="ml-10" />
+              <HeaderButton
+                onClick={e => handleClick(e, 'borrow')}
+                text="BORROW"
+                icon="/borrow.png"
+                href="#"
+                className="ml-10"
+              />
             )}
           </div>
           <div className="flex flex-row-reverse items-center">

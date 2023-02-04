@@ -10,6 +10,6 @@ button:hover {
   box-shadow: 0 10px 20px -10px black;
 }
 
-button {
-  background: linear-gradient(135deg, #b92b27, #1565c0);
+.primaryBtn {
+  background-image: linear-gradient(135deg, #b92b27, #1565c0) !important;
 }

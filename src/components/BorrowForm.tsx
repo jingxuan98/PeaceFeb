@@ -11,7 +11,7 @@ const BorrowForm = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit} className="rounded-lg bg-white p-6 shadow-xl">
+    <Form onSubmit={handleSubmit} className="rounded-lg bg-white p-6 shadow-2xl">
       <div className="text-center">
         <h2 className="text-center text-2xl font-medium">BORROW</h2>
         <text>Borrow FIL from loan pool</text>
@@ -28,7 +28,7 @@ const BorrowForm = () => {
       </Form.Group>
       <Button
         type="submit"
-        className="pri-button rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
+        className="primaryBtn rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
       >
         Submit
       </Button>
