@@ -11,12 +11,9 @@ const BorrowForm = () => {
   const { config } = usePrepareContractWrite({
     address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
     abi: LoanPoolABI,
-    functionName: 'fundPool',
+    functionName: 'applyLoan',
     ...(amount > 0 && {
-      overrides: {
-        from: address,
-        value: ethers.utils.parseEther(amount.toString()),
-      },
+      args: [ethers.utils.parseEther(amount.toString())],
     }),
   })
 
