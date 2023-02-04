@@ -3,8 +3,12 @@ import { useState } from 'react'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
 import { Button } from 'react-bootstrap'
+import { useContract, useProvider } from 'wagmi'
 
 export default function Borrow() {
+  const provider = useProvider()
+
+  console.log('provider', provider)
   return (
     <div className={styles.container}>
       <Header />
