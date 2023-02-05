@@ -43,20 +43,20 @@ const LendForm = () => {
     address: loanPoolAddress,
   })
 
+  async function fetchFunderDeposit() {
+    let funderAmount = await loanPoolContract.getFundersAmount(address)
+    setFunderDeposit(Number(ethers.utils.formatUnits(funderAmount)))
+    // console.log('Test', ethers.utils.formatUnits(funderAmount))
+  }
+
+  async function fetchFunderInterest() {
+    let funderAmount = await treasureContract.getAllocation(address)
+    setFunderInterest(Number(ethers.utils.formatUnits(funderAmount)))
+    // setFunderDeposit(Number(ethers.utils.formatUnits(funderAmount)))
+    // console.log('Test', ethers.utils.formatUnits(funderAmount))
+  }
+
   useEffect(() => {
-    async function fetchFunderDeposit() {
-      let funderAmount = await loanPoolContract.getFundersAmount(address)
-      setFunderDeposit(Number(ethers.utils.formatUnits(funderAmount)))
-      // console.log('Test', ethers.utils.formatUnits(funderAmount))
-    }
-
-    async function fetchFunderInterest() {
-      let funderAmount = await treasureContract.getAllocation(address)
-      setFunderInterest(Number(ethers.utils.formatUnits(funderAmount)))
-      // setFunderDeposit(Number(ethers.utils.formatUnits(funderAmount)))
-      // console.log('Test', ethers.utils.formatUnits(funderAmount))
-    }
-
     address && fetchFunderDeposit() && fetchFunderInterest()
   }, [address])
 
@@ -81,11 +81,11 @@ const LendForm = () => {
       <div style={{ width: 530 }} className="flex w-full flex-wrap items-center justify-evenly">
         <div className="flex flex-col">
           <p className="text-xl font-medium">Lent Balance</p>
-          <p className={styles.lendAmt}>{funderDeposit} FIL</p>
+          <p className={styles.lendAmt}>{funderDeposit ?? 0} FIL</p>
         </div>
         <div className="align-center flex flex-col justify-center">
           <p className="self-center text-xl font-medium">Your Interest Earned</p>
-          <p className={styles.lendAmt}>{funderInterest} FIL</p>
+          <p className={styles.lendAmt}>{funderInterest ?? 0} FIL</p>
         </div>
       </div>
       <div className="mt-8 flex w-full justify-center">

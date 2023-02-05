@@ -165,7 +165,7 @@ export default function ApplyLoan() {
         {!isLoading && loanWalletArr.length > 0 ? (
           loanWalletArr.map(wallet => renderLoanTx(wallet))
         ) : (
-          <p className={styles.loanDesc}>{isLoading ? 'Loading...' : 'You have no not apply any loans Yet'}</p>
+          <p className={styles.loanDesc}>{isLoading ? 'Loading...' : 'You have no not apply any loans yet'}</p>
         )}
       </main>
       <Footer />
