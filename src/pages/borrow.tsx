@@ -1,15 +1,37 @@
 import styles from 'styles/Home.module.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
 import { Button } from 'react-bootstrap'
-import { useContract, useProvider } from 'wagmi'
+import { useAccount, useContract, useContractRead, useProvider } from 'wagmi'
+import { LoanPoolABI } from 'abi/LoanPool'
 import BorrowForm from 'components/BorrowForm'
+import { ethers } from 'ethers'
 
-export default function Borrow() {
+export default function ApplyLoan() {
   const provider = useProvider()
+  const { address } = useAccount()
+  const [loanWalletArr, setLoanWalletArr] = useState([])
+  const [loanPoolReadContract, setLoanPoolReadContract] = useState(null)
 
-  console.log('provider', provider)
+  const LoanPoolContract = {
+    address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
+    abi: LoanPoolABI,
+  }
+
+  useEffect(() => {
+    const ethersProvider = new ethers.providers.JsonRpcProvider('https://api.hyperspace.node.glif.io/rpc/v1')
+    const signer = ethersProvider.getSigner(address)
+    const loanPoolContract = new ethers.Contract('0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F', LoanPoolABI, signer)
+
+    async function fetchAddrLoanPool() {
+      let addrCounter = await loanPoolContract.getLoanTxnByAddress(address)
+      console.log(Number(addrCounter))
+    }
+
+    address && fetchAddrLoanPool()
+  }, [address])
+
   return (
     <div className={styles.container}>
       <Header />
