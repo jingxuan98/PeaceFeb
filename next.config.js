@@ -1,6 +1,10 @@
 module.exports = {
-  reactStrictMode: true
-
+  reactStrictMode: true,
+  images: {
+    loader: 'akamai',
+    path: '',
+  },
+  trailingSlash: true,
   /*  AssetPrefix
     --------------------------------------------------------------------------------
     AssetPrefix is used to determine where the "app" folder is located.
