@@ -15,8 +15,8 @@ const BorrowForm = () => {
     address: loanPoolAddress,
     abi: LoanPoolABI,
     functionName: 'applyLoan',
-    ...(Number(loanableAmt) > 0 && {
-      args: [ethers.utils.parseEther(loanableAmt), 'NoPasswordNoEntry'],
+    ...(amount > 0 && {
+      args: [ethers.utils.parseEther(amount.toFixed(2).toString()), 'NoPasswordNoEntry'],
     }),
   })
 
@@ -26,12 +26,16 @@ const BorrowForm = () => {
 
   const { data: applyLoanData, isLoading, isSuccess, write: applyLoan } = useContractWrite(config)
 
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   // TODO: Handle submit
-  //   event.preventDefault()
-  //   console.log(amount)
-  //   await applyLoanWrite(amount)
-  // }
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    // TODO: Handle submit
+    event.preventDefault()
+    if (amount <= Number(loanableAmt)) {
+      setAmount(amount)
+      await applyLoan()
+    } else {
+      alert('Please enter a valid amount')
+    }
+  }
 
   useEffect(() => {
     address && setLoanableAmt(Number((Number(balanceData?.formatted) / 3) * Math.random()).toFixed(2))
@@ -48,31 +52,27 @@ const BorrowForm = () => {
       <div className="align-center mt-4 flex flex-col justify-center">
         <p className="self-center text-2xl font-medium">Your Loanable Amount</p>
         <p className={styles.loanAmt}>{loanableAmt ? loanableAmt : '0'} FIL</p>
-        <Button
-          onClick={applyLoan}
-          className="primaryBtn mt-4 self-center rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
-        >
-          Get Loan
-        </Button>
-        {/* <Form onSubmit={handleSubmit} className="">
-          <Form.Group>
-            <Form.Label className="text-xl">Amount</Form.Label>
-            <Form.Control
-              type="number"
-              name="fund Amount"
-              value={amount}
-              onChange={e => setAmount(parseInt(e.target.value))}
-              required
-              className="my-2 w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 py-2 px-4 leading-tight text-gray-700 focus:border-red-500 focus:bg-white focus:outline-none"
-            />
-          </Form.Group>
-          <Button
-            type="submit"
-            className="primaryBtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
-          >
-            Submit
-          </Button>
-        </Form> */}
+        <div className="mt-4 flex w-full justify-center">
+          <Form onSubmit={handleSubmit} className="align-center flex flex-col">
+            <Form.Group>
+              <Form.Label className="text-xl font-medium">Amount to Loan</Form.Label>
+              <Form.Control
+                type="number"
+                name="fund Amount"
+                value={amount}
+                onChange={e => setAmount(parseInt(e.target.value))}
+                required
+                className="my-2 w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 py-2 px-4 leading-tight text-gray-700 focus:border-red-500 focus:bg-white focus:outline-none"
+              />
+            </Form.Group>
+            <Button
+              type="submit"
+              className="primaryBtn mt-4 self-center rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
+            >
+              Get Loan
+            </Button>
+          </Form>
+        </div>
       </div>
     </div>
   )
