@@ -10,9 +10,11 @@ const LendForm = () => {
   const [funderDeposit, setFunderDeposit] = useState(0)
   const [funderInterest, setFunderInterest] = useState(0)
   const { address } = useAccount()
+  const loanPoolAddress = '0x3E78028Ebc699C5354e5954f0D3C717306534D09'
+  const treasuryAddress = '0xcF8776Fc79ef0cdD0d918fD3F0Ec1Ade525706eB'
 
   const { config } = usePrepareContractWrite({
-    address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
+    address: loanPoolAddress,
     abi: LoanPoolABI,
     functionName: 'fundPool',
     ...(amount > 0 && {
@@ -26,8 +28,8 @@ const LendForm = () => {
   useEffect(() => {
     const ethersProvider = new ethers.providers.JsonRpcProvider('https://api.hyperspace.node.glif.io/rpc/v1')
     const signer = ethersProvider.getSigner(address)
-    const loanPoolContract = new ethers.Contract('0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F', LoanPoolABI, signer)
-    const treasureContract = new ethers.Contract('0xEE0095cD876A8Fe365EcFCc7163b3F28123C6898', treasuryABI, signer)
+    const loanPoolContract = new ethers.Contract(loanPoolAddress, LoanPoolABI, signer)
+    const treasureContract = new ethers.Contract(treasuryAddress, treasuryABI, signer)
 
     async function fetchFunderDeposit() {
       let funderAmount = await loanPoolContract.getFundersAmount(address)
@@ -86,7 +88,7 @@ const LendForm = () => {
       </div>
       <div className="mt-6 flex w-full flex-wrap items-center justify-between">
         <div className="flex">
-          <text>Total Deposit</text>
+          <text>Your Lend Amount</text>
         </div>
         <div className="flex flex-row-reverse">
           <text>{funderDeposit} FIL</text>
@@ -94,7 +96,7 @@ const LendForm = () => {
       </div>
       <div className="mt-2 flex w-full flex-wrap items-center justify-between">
         <div className="flex">
-          <text>Interest Earned</text>
+          <text>Your Interest Earned</text>
         </div>
         <div className="flex flex-row-reverse">
           <text>{funderInterest} FIL</text>

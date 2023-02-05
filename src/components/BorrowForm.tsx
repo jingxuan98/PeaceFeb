@@ -1,4 +1,5 @@
 import { LoanPoolABI } from 'abi/LoanPool'
+import styles from 'styles/Home.module.scss'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
@@ -6,47 +7,54 @@ import { useAccount, useContractWrite, usePrepareContractWrite, useBalance, useC
 
 const BorrowForm = () => {
   const [amount, setAmount] = useState(0)
+  const [loanableAmt, setLoanableAmt] = useState('')
   const { address } = useAccount()
+  const loanPoolAddress = '0x3E78028Ebc699C5354e5954f0D3C717306534D09'
 
   const { config } = usePrepareContractWrite({
-    address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
+    address: loanPoolAddress,
     abi: LoanPoolABI,
     functionName: 'applyLoan',
-    ...(amount > 0 && {
-      args: [ethers.utils.parseEther(amount.toString())],
+    ...(Number(loanableAmt) > 0 && {
+      args: [ethers.utils.parseEther(loanableAmt), 'NoPasswordNoEntry'],
     }),
   })
 
   const { data: balanceData } = useBalance({
-    address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
+    address: loanPoolAddress,
   })
 
   const { data: applyLoanData, isLoading, isSuccess, write: applyLoan } = useContractWrite(config)
 
-  const applyLoanWrite = async (amt: number) => {
-    console.log(amt)
-    console.log(amt.toString())
-    // @ts-ignore
-    await applyLoan()
-  }
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   // TODO: Handle submit
+  //   event.preventDefault()
+  //   console.log(amount)
+  //   await applyLoanWrite(amount)
+  // }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // TODO: Handle submit
-    event.preventDefault()
-    console.log(amount)
-    await applyLoanWrite(amount)
-  }
+  useEffect(() => {
+    setLoanableAmt(Number(Number(balanceData?.formatted) * Math.random()).toFixed(2))
+  }, [balanceData])
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-2xl">
-      <div className="flex w-full flex-wrap items-center justify-between">
-        <div className="flex">
-          <text>Loanable Balance</text>
+    <div className="w-2/4 rounded-lg bg-white p-6 shadow-2xl">
+      <div className="flex w-full flex-wrap items-center justify-center">
+        <div className="flex flex-col">
+          <p className="text-2xl font-medium">Pool Loanable Balance</p>
+          <p className={styles.balanceAmt}>{balanceData?.formatted} FIL</p>
         </div>
-        <div className="flex flex-row-reverse">{balanceData?.formatted} FIL</div>
       </div>
-      <div className="mt-4">
-        <Form onSubmit={handleSubmit} className="">
+      <div className="align-center mt-4 flex flex-col justify-center">
+        <p className="self-center text-2xl font-medium">Your Loanable Amount</p>
+        <p className={styles.loanAmt}>{loanableAmt ? loanableAmt : '0'} FIL</p>
+        <Button
+          onClick={applyLoan}
+          className="primaryBtn mt-1 self-center rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
+        >
+          Get Loan
+        </Button>
+        {/* <Form onSubmit={handleSubmit} className="">
           <Form.Group>
             <Form.Label className="text-xl">Amount</Form.Label>
             <Form.Control
@@ -64,7 +72,7 @@ const BorrowForm = () => {
           >
             Submit
           </Button>
-        </Form>
+        </Form> */}
       </div>
     </div>
   )

@@ -1,36 +1,148 @@
 import styles from 'styles/Home.module.scss'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
 import { Button } from 'react-bootstrap'
-import { useAccount, useContract, useContractRead, useProvider } from 'wagmi'
+import {
+  useAccount,
+  useBalance,
+  useContractWrite,
+  usePrepareContractWrite,
+  useProvider,
+  useWaitForTransaction,
+} from 'wagmi'
 import { LoanPoolABI } from 'abi/LoanPool'
 import BorrowForm from 'components/BorrowForm'
 import { ethers } from 'ethers'
+import { LotusWalletABI } from 'abi/PFLotusWallet'
 
 export default function ApplyLoan() {
   const provider = useProvider()
   const { address } = useAccount()
+  const [isLoading, setLoading] = useState(false)
+  const [loanTxs, setLoantxs] = useState([])
   const [loanWalletArr, setLoanWalletArr] = useState([])
-  const [loanPoolReadContract, setLoanPoolReadContract] = useState(null)
+  const [callLoanWalletAddr, setCallLoanWalletAddr] = useState('')
+  const loanPoolAddr = '0x3E78028Ebc699C5354e5954f0D3C717306534D09'
+  const ethersProvider = useMemo(
+    () => new ethers.providers.JsonRpcProvider('https://api.hyperspace.node.glif.io/rpc/v1'),
+    []
+  )
 
-  const LoanPoolContract = {
-    address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
-    abi: LoanPoolABI,
-  }
+  const { config } = usePrepareContractWrite({
+    // @ts-ignore
+    address: callLoanWalletAddr,
+    abi: LotusWalletABI,
+    functionName: 'claimRewardsAll',
+    enabled: Boolean(callLoanWalletAddr),
+  })
+
+  const { data: withdrawAllData, write: withdrawAll } = useContractWrite(config)
+
+  const { isSuccess } = useWaitForTransaction({
+    hash: withdrawAllData?.hash,
+  })
 
   useEffect(() => {
-    const ethersProvider = new ethers.providers.JsonRpcProvider('https://api.hyperspace.node.glif.io/rpc/v1')
+    if (!address) return
+    setLoading(true)
     const signer = ethersProvider.getSigner(address)
-    const loanPoolContract = new ethers.Contract('0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F', LoanPoolABI, signer)
+    const loanPoolContract = new ethers.Contract(loanPoolAddr, LoanPoolABI, signer)
 
     async function fetchAddrLoanPool() {
+      let tempLoanTxs = []
+      let res: any
       let addrCounter = await loanPoolContract.getLoanTxnByAddress(address)
-      console.log(Number(addrCounter))
+
+      res = await loanPoolContract.loanTxs(addrCounter[addrCounter.length - 1])
+      console.log(res)
+      if (res) {
+        tempLoanTxs.push(res)
+      }
+
+      setLoantxs(tempLoanTxs)
     }
 
     address && fetchAddrLoanPool()
-  }, [address])
+  }, [address, ethersProvider])
+
+  useEffect(() => {
+    const fetchLoanWalletDetails = async () => {
+      let data = []
+      for (let i = 0; i < loanTxs.length; i++) {
+        let bal = await ethersProvider.getBalance(loanTxs[i].loanWalletAddr)
+        const balanceInFil = ethers.utils.formatEther(bal)
+        const loanWalletContract = new ethers.Contract(
+          loanTxs[i].loanWalletAddr,
+          LotusWalletABI,
+          ethersProvider.getSigner(address)
+        )
+
+        let totalFund = await loanWalletContract.totalFund()
+        let totalRewards = await loanWalletContract.totalRewards()
+        let applicantRewards = await loanWalletContract.applicantRewards()
+        let historicalRewards = await loanWalletContract.rewardsReceivedRecord()
+
+        data.push({
+          loanId: i + 1,
+          applicant: loanTxs[i].sp,
+          loanWalletAddr: loanTxs[i].loanWalletAddr,
+          balance: balanceInFil,
+          total: ethers.utils.formatEther(totalFund),
+          totalRewards: ethers.utils.formatEther(totalRewards),
+          applicantRewards: ethers.utils.formatEther(applicantRewards),
+          historicalRewards: ethers.utils.formatEther(historicalRewards),
+        })
+      }
+      setLoanWalletArr(data)
+      setLoading(false)
+    }
+
+    fetchLoanWalletDetails()
+  }, [loanTxs, isSuccess])
+
+  useEffect(() => {
+    if (callLoanWalletAddr == '') return
+    const withhdrawAllSign = async () => {
+      await withdrawAll?.()
+      setCallLoanWalletAddr('')
+    }
+
+    console.log(callLoanWalletAddr)
+    withhdrawAllSign()
+  }, [callLoanWalletAddr])
+
+  const renderLoanTx = data => {
+    const { applicant, loanWalletAddr, balance, loanId, totalRewards, applicantRewards, historicalRewards } = data
+
+    return (
+      <div key={loanWalletAddr} className="w-2/4 rounded-xl bg-white p-6 shadow-2xl">
+        <h3 className={styles.h3Header}>Loan Details</h3>
+        <div>
+          <p className={styles.loanDesc} style={{ marginTop: 15 }}>
+            Miner Wallet Addr: {loanWalletAddr}
+          </p>
+          <p className={styles.loanDesc}>Loan Applicant Address: {applicant}</p>
+          <p className={styles.loanDesc}>Miner Wallet Balance: {Number(balance).toFixed(2)} FIL</p>
+          <p className={styles.loanDesc}>Total Rewards(Historical): {Number(historicalRewards).toFixed(2)} FIL</p>
+          <p className={styles.loanDesc}>Total Undistributed Mining Rewards: {Number(totalRewards).toFixed(2)} FIL</p>
+          <p className={styles.loanDesc} style={{ marginBottom: 15 }}>
+            Your Mining Rewards: {Number(applicantRewards).toFixed(2)} FIL
+          </p>
+          <div className="flex justify-center">
+            <Button
+              onClick={async () => {
+                setCallLoanWalletAddr(loanWalletAddr)
+              }}
+              className="primaryBtn rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
+            >
+              Claim Rewards
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.container}>
@@ -39,33 +151,19 @@ export default function ApplyLoan() {
         <h2 className={styles.h2Header}>Apply for Loan</h2>
         <BorrowForm />
         <h2 className={styles.h2Header}>Your Loans</h2>
-
-        <div className="w-2/4 rounded-xl bg-white p-6 shadow-2xl">
-          <h3 className={styles.h3Header}>Loan ID: 00001</h3>
+        {isSuccess && (
           <div>
-            <p className={styles.loanDesc} style={{ marginTop: 15 }}>
-              Loan Wallet Addr: 0xXXXXXXXXXXX
-            </p>
-            <p className={styles.loanDesc}>Loan Wallet Balance: 4 tFIL</p>
-            <p className={styles.loanDesc} style={{ marginBottom: 15 }}>
-              Rewards: 0 tFIL
-            </p>
-            <div className={'mb-6 rounded-xl border border-slate-300 p-3'}>
-              <h5 className={styles.loanInnerTitle}>Last Withdrawal Request</h5>
-              <p className={styles.loanDesc}>Amount: 2 tFil</p>
-              <p className={styles.loanDesc}>Request Time: 2023-01-23</p>
-              <p className={styles.loanDesc}>Status: PENDING</p>
-            </div>
-            <div className="flex justify-center">
-              <Button
-                type="submit"
-                className="primaryBtn rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
-              >
-                Request for Withdrawal
-              </Button>
+            Successfully minted your NFT!
+            <div>
+              <a href={`https://hyperspace.filfox.info/en/tx/${withdrawAllData?.hash}`}>Check on Explorer</a>
             </div>
           </div>
-        </div>
+        )}
+        {!isLoading && loanWalletArr.length > 0 ? (
+          loanWalletArr.map(wallet => renderLoanTx(wallet))
+        ) : (
+          <p className={styles.loanDesc}>{isLoading ? 'Loading...' : 'You have no not apply any loans Yet'}</p>
+        )}
       </main>
       <Footer />
     </div>

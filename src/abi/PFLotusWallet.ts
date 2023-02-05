@@ -201,32 +201,6 @@ export const LotusWalletABI = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '_collateral',
-        type: 'uint256',
-      },
-    ],
-    name: 'pledgeCollateral',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '_collateral',
-        type: 'uint256',
-      },
-    ],
-    name: 'pledgeStorageDealCollateral',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
     inputs: [],
     name: 'receiveBlockRewards',
     outputs: [],
@@ -245,6 +219,19 @@ export const LotusWalletABI = [
     name: 'receivePledgedCollateral',
     outputs: [],
     stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'rewardsReceivedRecord',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {

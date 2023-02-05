@@ -106,6 +106,11 @@ export const LoanPoolABI = [
         name: '_amount',
         type: 'uint256',
       },
+      {
+        internalType: 'string',
+        name: '_password',
+        type: 'string',
+      },
     ],
     name: 'applyLoan',
     outputs: [],
@@ -116,13 +121,32 @@ export const LoanPoolABI = [
     inputs: [
       {
         internalType: 'uint256',
-        name: '_maxAmount',
+        name: '_maxLoanableAmount',
         type: 'uint256',
       },
     ],
     name: 'changeMaxLoanableAmount',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_password',
+        type: 'string',
+      },
+    ],
+    name: 'checkPassword',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -313,6 +337,11 @@ export const LoanPoolABI = [
         name: '_treasury',
         type: 'address',
       },
+      {
+        internalType: 'string',
+        name: '_password',
+        type: 'string',
+      },
     ],
     name: 'initialize',
     outputs: [],
@@ -378,8 +407,27 @@ export const LoanPoolABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'maxAmountByApplicant',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [],
-    name: 'maxAmount',
+    name: 'maxLoanableAmount',
     outputs: [
       {
         internalType: 'uint256',
@@ -395,6 +443,19 @@ export const LoanPoolABI = [
     name: 'receiveBackFund',
     outputs: [],
     stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_password',
+        type: 'string',
+      },
+    ],
+    name: 'setPassword',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {

@@ -59,7 +59,7 @@
 }
 
 .loanDesc {
-  color: #686767;
+  color: #494949;
   font-size: 15px;
   margin: 5px 0;
 }
@@ -69,4 +69,18 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 4px;
+}
+
+.loanAmt {
+  font-size: 3rem;
+  color: #1565c0;
+  font-weight: 600;
+  align-self: center;
+}
+
+.balanceAmt {
+  font-size: 2rem;
+  color: #b92b27;
+  font-weight: 600;
+  align-self: center;
 }
