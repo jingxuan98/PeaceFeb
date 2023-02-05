@@ -26,7 +26,7 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   return (
-    <ThemeProvider defaultTheme="system" attribute="class">
+    <ThemeProvider defaultTheme="light" attribute="class">
       <HeadGlobal />
       <Web3Wrapper>
         <Component key={router.asPath} {...pageProps} />
