@@ -155,7 +155,7 @@ export default function ApplyLoan() {
         <h2 className={styles.h2Header}>Your Loans</h2>
         {isSuccess && (
           <div>
-            Successfully minted your NFT!
+            Txn Successful!
             <div>
               <a href={`https://hyperspace.filfox.info/en/tx/${withdrawAllData?.hash}`}>Check on Explorer</a>
             </div>

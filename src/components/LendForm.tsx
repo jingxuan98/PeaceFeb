@@ -13,6 +13,10 @@ const LendForm = () => {
   const { address } = useAccount()
   const loanPoolAddress = '0x3E78028Ebc699C5354e5954f0D3C717306534D09'
   const treasuryAddress = '0xcF8776Fc79ef0cdD0d918fD3F0Ec1Ade525706eB'
+  const ethersProvider = new ethers.providers.JsonRpcProvider('https://api.hyperspace.node.glif.io/rpc/v1')
+  const signer = ethersProvider.getSigner(address)
+  const loanPoolContract = new ethers.Contract(loanPoolAddress, LoanPoolABI, signer)
+  const treasureContract = new ethers.Contract(treasuryAddress, treasuryABI, signer)
 
   const { config } = usePrepareContractWrite({
     address: loanPoolAddress,
@@ -25,13 +29,16 @@ const LendForm = () => {
       },
     }),
   })
+  const { data: fundPoolData, write: fundPool } = useContractWrite(config)
+
+  const { config: harvestConfig } = usePrepareContractWrite({
+    address: treasuryAddress,
+    abi: treasuryABI,
+    functionName: 'claimAll',
+  })
+  const { data: claimAllData, write: claimAll } = useContractWrite(harvestConfig)
 
   useEffect(() => {
-    const ethersProvider = new ethers.providers.JsonRpcProvider('https://api.hyperspace.node.glif.io/rpc/v1')
-    const signer = ethersProvider.getSigner(address)
-    const loanPoolContract = new ethers.Contract(loanPoolAddress, LoanPoolABI, signer)
-    const treasureContract = new ethers.Contract(treasuryAddress, treasuryABI, signer)
-
     async function fetchFunderDeposit() {
       let funderAmount = await loanPoolContract.getFundersAmount(address)
       setFunderDeposit(Number(ethers.utils.formatUnits(funderAmount)))
@@ -48,11 +55,7 @@ const LendForm = () => {
     address && fetchFunderDeposit() && fetchFunderInterest()
   }, [address])
 
-  const { data: applyLoanData, isLoading, isSuccess, write: fundPool } = useContractWrite(config)
-
   const fundPoolWrite = async (amt: number) => {
-    console.log(amt)
-    console.log(amt.toString())
     // @ts-ignore
     await fundPool()
   }
@@ -92,7 +95,10 @@ const LendForm = () => {
             />
           </Form.Group>
           <div className="flex w-full justify-evenly">
-            <Button className="secondarybtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700">
+            <Button
+              onClick={async () => await claimAll()}
+              className="secondarybtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
+            >
               Harvest
             </Button>
             <Button
