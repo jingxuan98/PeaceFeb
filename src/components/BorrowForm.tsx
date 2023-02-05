@@ -34,7 +34,7 @@ const BorrowForm = () => {
   // }
 
   useEffect(() => {
-    setLoanableAmt(Number(Number(balanceData?.formatted) * Math.random()).toFixed(2))
+    setLoanableAmt(Number((Number(balanceData?.formatted) / 3) * Math.random()).toFixed(2))
   }, [balanceData])
 
   return (
