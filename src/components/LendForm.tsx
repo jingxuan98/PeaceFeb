@@ -3,7 +3,7 @@ import { LoanPoolABI } from 'abi/LoanPool'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useAccount, useBalance, useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { treasuryABI } from 'abi/Treasury'
 import styles from 'styles/Home.module.scss'
 
@@ -39,6 +39,10 @@ const LendForm = () => {
   })
   const { data: claimAllData, write: claimAll } = useContractWrite(harvestConfig)
 
+  const { data: balanceData } = useBalance({
+    address: loanPoolAddress,
+  })
+
   useEffect(() => {
     async function fetchFunderDeposit() {
       let funderAmount = await loanPoolContract.getFundersAmount(address)
@@ -70,6 +74,10 @@ const LendForm = () => {
 
   return (
     <div className="rounded-lg bg-white p-6 shadow-2xl">
+      <div className="flex flex-col">
+        <p className="selc-center text-xl font-medium">Pool Balance</p>
+        <p className={styles.lendAmt}>{balanceData?.formatted} FIL</p>
+      </div>
       <div style={{ width: 530 }} className="flex w-full flex-wrap items-center justify-evenly">
         <div className="flex flex-col">
           <p className="text-xl font-medium">Lent Balance</p>
