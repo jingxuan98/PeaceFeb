@@ -76,6 +76,9 @@
   color: #1565c0;
   font-weight: 600;
   align-self: center;
+  background-image: linear-gradient(135deg, #b92b27, #1565c0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .balanceAmt {
@@ -83,4 +86,17 @@
   color: #b92b27;
   font-weight: 600;
   align-self: center;
+  background-image: linear-gradient(135deg, #b92b27, #1565c0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lendAmt {
+  font-size: 3rem;
+  color: #b92b27;
+  font-weight: 600;
+  align-self: center;
+  background-image: linear-gradient(135deg, #b92b27, #1565c0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

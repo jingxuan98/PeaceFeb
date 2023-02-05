@@ -13,3 +13,16 @@ button:hover {
 .primaryBtn {
   background-image: linear-gradient(135deg, #b92b27, #1565c0) !important;
 }
+
+.form-label {
+  display: flex;
+  justify-content: center;
+}
+
+.secondarybtn {
+  background-image: linear-gradient(135deg, #b92b27, #1565c0) !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 5px;
+  border: 1px solid #b92b27;
+}

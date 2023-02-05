@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { treasuryABI } from 'abi/Treasury'
+import styles from 'styles/Home.module.scss'
 
 const LendForm = () => {
   const [amount, setAmount] = useState(0)
@@ -65,10 +66,22 @@ const LendForm = () => {
 
   return (
     <div className="rounded-lg bg-white p-6 shadow-2xl">
-      <div>
-        <Form onSubmit={handleSubmit} className="">
-          <Form.Group>
-            <Form.Label className="text-xl">New Deposit</Form.Label>
+      <div style={{ width: 530 }} className="flex w-full flex-wrap items-center justify-evenly">
+        <div className="flex flex-col">
+          <p className="text-xl font-medium">Lent Balance</p>
+          <p className={styles.lendAmt}>{funderDeposit} FIL</p>
+        </div>
+        <div className="align-center flex flex-col justify-center">
+          <p className="self-center text-xl font-medium">Your Interest Earned</p>
+          <p className={styles.lendAmt}>{funderInterest} FIL</p>
+        </div>
+      </div>
+      <div className="mt-8 flex w-full justify-center">
+        <Form style={{ width: 400 }} onSubmit={handleSubmit} className="flex flex-col justify-center">
+          <Form.Group className="align-center flex flex-col">
+            <Form.Label>
+              <span className="text-xl font-medium">Amount to Lend</span>
+            </Form.Label>
             <Form.Control
               type="number"
               name="fund Amount"
@@ -78,29 +91,18 @@ const LendForm = () => {
               className="my-2 w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 py-2 px-4 leading-tight text-gray-700 focus:border-red-500 focus:bg-white focus:outline-none"
             />
           </Form.Group>
-          <Button
-            type="submit"
-            className="primaryBtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
-          >
-            Submit
-          </Button>
+          <div className="flex w-full justify-evenly">
+            <Button className="secondarybtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700">
+              Harvest
+            </Button>
+            <Button
+              type="submit"
+              className="primaryBtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
+            >
+              Lend
+            </Button>
+          </div>
         </Form>
-      </div>
-      <div className="mt-6 flex w-full flex-wrap items-center justify-between">
-        <div className="flex">
-          <text>Your Lend Amount</text>
-        </div>
-        <div className="flex flex-row-reverse">
-          <text>{funderDeposit} FIL</text>
-        </div>
-      </div>
-      <div className="mt-2 flex w-full flex-wrap items-center justify-between">
-        <div className="flex">
-          <text>Your Interest Earned</text>
-        </div>
-        <div className="flex flex-row-reverse">
-          <text>{funderInterest} FIL</text>
-        </div>
       </div>
     </div>
   )

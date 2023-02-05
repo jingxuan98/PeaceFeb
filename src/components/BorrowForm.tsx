@@ -50,7 +50,7 @@ const BorrowForm = () => {
         <p className={styles.loanAmt}>{loanableAmt ? loanableAmt : '0'} FIL</p>
         <Button
           onClick={applyLoan}
-          className="primaryBtn mt-1 self-center rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
+          className="primaryBtn mt-4 self-center rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
         >
           Get Loan
         </Button>

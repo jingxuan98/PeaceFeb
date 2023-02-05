@@ -116,7 +116,7 @@ export default function ApplyLoan() {
     const { applicant, loanWalletAddr, balance, loanId, totalRewards, applicantRewards, historicalRewards } = data
 
     return (
-      <div key={loanWalletAddr} className="w-2/4 rounded-xl bg-white p-6 shadow-2xl">
+      <div key={loanWalletAddr} className="w-2/4 rounded-xl bg-white p-6 px-12 shadow-2xl">
         <h3 className={styles.h3Header}>Loan Details</h3>
         <div>
           <p className={styles.loanDesc} style={{ marginTop: 15 }}>
@@ -126,9 +126,11 @@ export default function ApplyLoan() {
           <p className={styles.loanDesc}>Miner Wallet Balance: {Number(balance).toFixed(2)} FIL</p>
           <p className={styles.loanDesc}>Total Rewards(Historical): {Number(historicalRewards).toFixed(2)} FIL</p>
           <p className={styles.loanDesc}>Total Undistributed Mining Rewards: {Number(totalRewards).toFixed(2)} FIL</p>
-          <p className={styles.loanDesc} style={{ marginBottom: 15 }}>
-            Your Mining Rewards: {Number(applicantRewards).toFixed(2)} FIL
-          </p>
+          <div className="flex flex-col">
+            <p className="mt-4 self-center text-2xl font-medium">Your Mining Rewards</p>
+            <p className={styles.balanceAmt}>{Number(applicantRewards).toFixed(2)} FIL</p>
+          </div>
+
           <div className="flex justify-center">
             <Button
               onClick={async () => {
