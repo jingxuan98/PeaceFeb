@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from 'styles/Home.module.scss'
 import { useEffect, useMemo, useState } from 'react'
 import Header from 'components/Header'

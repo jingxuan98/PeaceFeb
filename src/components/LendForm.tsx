@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { LoanPoolABI } from 'abi/LoanPool'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
