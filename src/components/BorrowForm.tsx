@@ -41,7 +41,7 @@ const BorrowForm = () => {
     <div className="w-2/4 rounded-lg bg-white p-6 shadow-2xl">
       <div className="flex w-full flex-wrap items-center justify-center">
         <div className="flex flex-col">
-          <p className="text-2xl font-medium">Pool Loanable Balance</p>
+          <p className="text-xl font-medium">Pool Loanable Balance</p>
           <p className={styles.balanceAmt}>{balanceData?.formatted} FIL</p>
         </div>
       </div>
