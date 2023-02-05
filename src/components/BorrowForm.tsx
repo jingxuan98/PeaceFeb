@@ -3,7 +3,8 @@ import styles from 'styles/Home.module.scss'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import { useAccount, useContractWrite, usePrepareContractWrite, useBalance, useContractRead } from 'wagmi'
+import { useAccount, useContractWrite, usePrepareContractWrite, useBalance } from 'wagmi'
+import { MockData } from '../../public/mock_data'
 
 const BorrowForm = () => {
   const [amount, setAmount] = useState(0)
@@ -26,9 +27,22 @@ const BorrowForm = () => {
 
   const { data: applyLoanData, isLoading, isSuccess, write: applyLoan } = useContractWrite(config)
 
+  const verifyAddress = address => {
+    for (let i = 0; i < MockData.length; i++) {
+      if (address === MockData[i].address && MockData[i].reputation_score >= 95) {
+        return true
+      }
+    }
+    return false
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // TODO: Handle submit
     event.preventDefault()
+    console.log(verifyAddress(address))
+    // if (!verifyAddress(address)) {
+    //   alert('You are not eligible for a loan')
+    //   return
+    // }
     if (amount <= Number(loanableAmt)) {
       setAmount(amount)
       await applyLoan()
