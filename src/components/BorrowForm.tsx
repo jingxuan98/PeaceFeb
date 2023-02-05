@@ -2,7 +2,7 @@ import { LoanPoolABI } from 'abi/LoanPool'
 import { ethers } from 'ethers'
 import { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useAccount, useContractWrite, usePrepareContractWrite, useBalance, useContractRead } from 'wagmi'
 
 const BorrowForm = () => {
   const [amount, setAmount] = useState(0)
@@ -15,6 +15,10 @@ const BorrowForm = () => {
     ...(amount > 0 && {
       args: [ethers.utils.parseEther(amount.toString())],
     }),
+  })
+
+  const { data: balanceData } = useBalance({
+    address: '0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F',
   })
 
   const { data: applyLoanData, isLoading, isSuccess, write: applyLoan } = useContractWrite(config)
@@ -39,10 +43,7 @@ const BorrowForm = () => {
         <div className="flex">
           <text>Loanable Balance</text>
         </div>
-        <div className="flex flex-row-reverse">
-          {/* TODO: Update loanable balance amount*/}
-          <text>0 FIL</text>
-        </div>
+        <div className="flex flex-row-reverse">{balanceData?.formatted} FIL</div>
       </div>
       <div className="mt-4">
         <Form onSubmit={handleSubmit} className="">
