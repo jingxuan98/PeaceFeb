@@ -1,11 +1,14 @@
 import { LoanPoolABI } from 'abi/LoanPool'
 import { ethers } from 'ethers'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { treasuryABI } from 'abi/Treasury'
 
 const LendForm = () => {
   const [amount, setAmount] = useState(0)
+  const [funderDeposit, setFunderDeposit] = useState(0)
+  const [funderInterest, setFunderInterest] = useState(0)
   const { address } = useAccount()
 
   const { config } = usePrepareContractWrite({
@@ -19,6 +22,28 @@ const LendForm = () => {
       },
     }),
   })
+
+  useEffect(() => {
+    const ethersProvider = new ethers.providers.JsonRpcProvider('https://api.hyperspace.node.glif.io/rpc/v1')
+    const signer = ethersProvider.getSigner(address)
+    const loanPoolContract = new ethers.Contract('0xfc17Eb6d20Cd687e493Fa113930c2FCb157a014F', LoanPoolABI, signer)
+    const treasureContract = new ethers.Contract('0xEE0095cD876A8Fe365EcFCc7163b3F28123C6898', treasuryABI, signer)
+
+    async function fetchFunderDeposit() {
+      let funderAmount = await loanPoolContract.getFundersAmount(address)
+      setFunderDeposit(Number(ethers.utils.formatUnits(funderAmount)))
+      // console.log('Test', ethers.utils.formatUnits(funderAmount))
+    }
+
+    async function fetchFunderInterest() {
+      let funderAmount = await treasureContract.getAllocation(address)
+      setFunderInterest(Number(ethers.utils.formatUnits(funderAmount)))
+      // setFunderDeposit(Number(ethers.utils.formatUnits(funderAmount)))
+      // console.log('Test', ethers.utils.formatUnits(funderAmount))
+    }
+
+    address && fetchFunderDeposit() && fetchFunderInterest()
+  }, [address])
 
   const { data: applyLoanData, isLoading, isSuccess, write: fundPool } = useContractWrite(config)
 
@@ -64,8 +89,7 @@ const LendForm = () => {
           <text>Total Deposit</text>
         </div>
         <div className="flex flex-row-reverse">
-          {/* TODO: Update deposit amount*/}
-          <text>0 FIL</text>
+          <text>{funderDeposit} FIL</text>
         </div>
       </div>
       <div className="mt-2 flex w-full flex-wrap items-center justify-between">
@@ -73,8 +97,7 @@ const LendForm = () => {
           <text>Interest Earned</text>
         </div>
         <div className="flex flex-row-reverse">
-          {/* TODO: Update deposit amount*/}
-          <text>0 FIL</text>
+          <text>{funderInterest} FIL</text>
         </div>
       </div>
     </div>

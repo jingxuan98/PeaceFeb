@@ -1,6 +1,6 @@
 import { LoanPoolABI } from 'abi/LoanPool'
 import { ethers } from 'ethers'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useAccount, useContractWrite, usePrepareContractWrite, useBalance, useContractRead } from 'wagmi'
 
