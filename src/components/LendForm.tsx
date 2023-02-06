@@ -66,7 +66,6 @@ const LendForm = () => {
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // TODO: Handle submit
     event.preventDefault()
 
     await fundPoolWrite(amount)
