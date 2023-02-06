@@ -39,4 +39,8 @@ export const MockData = [
     address: '0xfC8838E4FEb2A2812A10e84FB9428058C81BA2CE',
     reputation_score: 98,
   },
+  {
+    address: '0x875C5f5a43c9Cb889AC887f7A94c43d378f738E4',
+    reputation_score: 98,
+  },
 ]

@@ -39,10 +39,10 @@ const BorrowForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log(verifyAddress(address))
-    // if (!verifyAddress(address)) {
-    //   alert('You are not eligible for a loan')
-    //   return
-    // }
+    if (!verifyAddress(address)) {
+      alert('You are not eligible for a loan')
+      return
+    }
     if (amount <= Number(loanableAmt)) {
       setAmount(amount)
       await applyLoan()
