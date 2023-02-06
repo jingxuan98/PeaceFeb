@@ -84,7 +84,7 @@ const LendForm = () => {
         </div>
         <div className="align-center flex flex-col justify-center">
           <p className="self-center text-xl font-medium">Rewards Earned</p>
-          <p className={styles.lendAmt}>{funderInterest ?? 0} FIL</p>
+          <p className={styles.lendAmt}>{funderInterest.toFixed(2) ?? 0} FIL</p>
         </div>
       </div>
       <div className="mt-8 flex w-full justify-center">
