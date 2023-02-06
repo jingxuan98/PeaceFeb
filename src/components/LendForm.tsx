@@ -107,13 +107,13 @@ const LendForm = () => {
               onClick={async () => await claimAll()}
               className="secondarybtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
             >
-              Harvest Reward
+              Harvest Rewards
             </Button>
             <Button
               type="submit"
               className="primaryBtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
             >
-              Lend
+              Lend Now
             </Button>
           </div>
         </Form>
