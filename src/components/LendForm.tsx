@@ -84,7 +84,7 @@ const LendForm = () => {
           <p className={styles.lendAmt}>{funderDeposit ?? 0} FIL</p>
         </div>
         <div className="align-center flex flex-col justify-center">
-          <p className="self-center text-xl font-medium">Your Interest Earned</p>
+          <p className="self-center text-xl font-medium">Rewards Earned</p>
           <p className={styles.lendAmt}>{funderInterest ?? 0} FIL</p>
         </div>
       </div>
@@ -108,13 +108,13 @@ const LendForm = () => {
               onClick={async () => await claimAll()}
               className="secondarybtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
             >
-              Harvest
+              Harvest Rewards
             </Button>
             <Button
               type="submit"
               className="primaryBtn mt-1 rounded-full bg-purple-500 py-2 px-4 font-medium text-white hover:bg-purple-700"
             >
-              Lend
+              Lend Now
             </Button>
           </div>
         </Form>
