@@ -1,4 +1,4 @@
-# PeaceFeb - Now Everyone can Build
+# PeaceFeb - Now Everyone can Participate
 
 ## Project Summary
 
