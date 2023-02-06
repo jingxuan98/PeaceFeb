@@ -75,7 +75,7 @@ const LendForm = () => {
   return (
     <div className="rounded-lg bg-white p-6 shadow-2xl">
       <div className="flex flex-col">
-        <p className="selc-center text-xl font-medium">Pool Balance</p>
+        <p className="self-center text-xl font-medium">Pool Balance</p>
         <p className={styles.lendAmt}>{balanceData?.formatted} FIL</p>
       </div>
       <div style={{ width: 530 }} className="flex w-full flex-wrap items-center justify-evenly">

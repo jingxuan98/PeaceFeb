@@ -117,7 +117,7 @@ export default function ApplyLoan() {
     const { applicant, loanWalletAddr, balance, loanId, totalRewards, applicantRewards, historicalRewards } = data
 
     return (
-      <div key={loanWalletAddr} className="w-2/4 rounded-xl bg-white p-6 px-12 shadow-2xl">
+      <div key={loanWalletAddr} className="w-2/5 rounded-xl bg-white p-6 px-12 shadow-2xl">
         <h3 className={styles.h3Header}>Loan Details</h3>
         <div>
           <p className={styles.loanDesc} style={{ marginTop: 15 }}>
@@ -151,7 +151,7 @@ export default function ApplyLoan() {
     <div className={styles.container}>
       <Header />
       <main className={styles.main + ' space-y-6'}>
-        <h2 className={styles.h2Header}>Apply for Loan</h2>
+        <h2 className={styles.h2Header}>Apply Loan with Zero Collateral</h2>
         <BorrowForm />
         <h2 className={styles.h2Header}>Your Loans</h2>
         {isSuccess && (

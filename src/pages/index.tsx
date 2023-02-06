@@ -32,7 +32,11 @@ function Main() {
 
   return (
     <main className={styles.main + ' space-y-6'}>
-      <h2 className={styles.h2Header}>Earn Interest with Your FILs</h2>
+      <h2 className={styles.h2Header}>
+        Be a Storage Provider & Earn Mining Rewards
+        <br />
+        By Just Lending Your FILs
+      </h2>
       {/* <p className="header-desc">FEVMs Reward Sharing Undercollateralised Loan Platform</p> */}
       <div className="text-left">
         <LendForm />
